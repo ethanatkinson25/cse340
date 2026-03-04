@@ -43,3 +43,9 @@ app.get('/projects', async (req, res) => {
     const title = 'Service Projects';
     res.render('projects', { title });
 });
+
+// Start the HTTP server. Without this call the process will run and then exit immediately
+// so none of the routes ever handle requests.
+app.listen(PORT, () => {
+    console.log(`Server listening on port ${PORT} (env: ${NODE_ENV})`);
+});
