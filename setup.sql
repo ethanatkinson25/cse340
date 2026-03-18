@@ -34,23 +34,23 @@ CREATE TABLE service_project (
 INSERT INTO service_project (organization_id, title, description, location, date) VALUES
 (1, 'Community Center Renovation',
  'Volunteers repair and repaint the interior of an aging neighborhood community center.',
- '142 Maple St, Springfield', '2025-03-15'),
+ '142 Maple St, Springfield', '2026-03-15'),
 
 (1, 'Affordable Housing Framing Day',
  'Help frame walls for a new affordable housing unit being built in partnership with Habitat for Humanity.',
- '78 Birchwood Ave, Lakeside', '2025-04-05'),
+ '78 Birchwood Ave, Lakeside', '2026-04-05'),
 
 (1, 'Playground Equipment Install',
  'Assemble and install new playground equipment donated to an underserved elementary school.',
- 'Roosevelt Elementary, Springfield', '2025-04-26'),
+ 'Roosevelt Elementary, Springfield', '2026-04-26'),
 
 (1, 'Park Pathway Repair',
  'Repave and restore crumbling walkways throughout Riverside Park for safer community access.',
- 'Riverside Park, Springfield', '2025-05-10'),
+ 'Riverside Park, Springfield', '2026-05-10'),
 
 (1, 'School Mural Project',
  'Work with local artists and students to design and paint a large mural on the school gymnasium wall.',
- 'Lincoln Middle School, Maplewood', '2025-06-07');
+ 'Lincoln Middle School, Maplewood', '2026-06-07');
 
 -- ============================================
 -- GreenHarvest Growers (organization_id = 2)
@@ -58,23 +58,23 @@ INSERT INTO service_project (organization_id, title, description, location, date
 INSERT INTO service_project (organization_id, title, description, location, date) VALUES
 (2, 'Spring Garden Planting Day',
  'Prepare beds and plant seasonal vegetables at the community garden for local families to tend and harvest.',
- 'Eastside Community Garden, Springfield', '2025-03-22'),
+ 'Eastside Community Garden, Springfield', '2026-03-22'),
 
 (2, 'Composting Workshop',
  'Teach residents how to build and maintain a compost bin to reduce food waste and enrich garden soil.',
- 'GreenHarvest Urban Farm, Lakeside', '2025-04-12'),
+ 'GreenHarvest Urban Farm, Lakeside', '2026-04-12'),
 
 (2, 'Farmers Market Volunteer Day',
  'Help set up, run, and break down the weekly neighborhood farmers market supporting local growers.',
- 'Downtown Farmers Market, Springfield', '2025-05-03'),
+ 'Downtown Farmers Market, Springfield', '2026-05-03'),
 
 (2, 'School Garden Build',
  'Build raised garden beds at a local elementary school and teach students basic growing techniques.',
- 'Sunnydale Elementary, Maplewood', '2025-05-17'),
+ 'Sunnydale Elementary, Maplewood', '2026-05-17'),
 
 (2, 'Harvest Food Drive',
  'Harvest surplus produce from community farms and distribute fresh vegetables to local food pantries.',
- 'GreenHarvest Urban Farm, Lakeside', '2025-09-20');
+ 'GreenHarvest Urban Farm, Lakeside', '2026-09-20');
 
 -- ============================================
 -- UnityServe Volunteers (organization_id = 3)
@@ -82,23 +82,23 @@ INSERT INTO service_project (organization_id, title, description, location, date
 INSERT INTO service_project (organization_id, title, description, location, date) VALUES
 (3, 'Food Pantry Sort & Pack',
  'Sort donated goods and pack weekly food boxes for 200+ families at the county food bank.',
- 'Springfield County Food Bank', '2025-03-29'),
+ 'Springfield County Food Bank', '2026-03-29'),
 
 (3, 'Homeless Shelter Deep Clean',
  'Thoroughly clean and organize dormitories, bathrooms, and common areas at the downtown shelter.',
- 'Hope House Shelter, Downtown Springfield', '2025-04-19'),
+ 'Hope House Shelter, Downtown Springfield', '2026-04-19'),
 
 (3, 'Senior Center Companion Visit',
  'Spend time with elderly residents at a local nursing home through conversation, games, and activities.',
- 'Sunset Manor Nursing Home, Lakeside', '2025-05-03'),
+ 'Sunset Manor Nursing Home, Lakeside', '2026-05-03'),
 
 (3, 'Back-to-School Supply Drive',
  'Collect and distribute backpacks filled with essential school supplies to 400 low-income students.',
- 'UnityServe HQ, Springfield', '2025-07-26'),
+ 'UnityServe HQ, Springfield', '2026-07-26'),
 
 (3, 'Winter Coat Giveaway',
  'Hand out donated coats, gloves, and scarves to unhoused individuals before the winter season.',
- 'Central Park Pavilion, Springfield', '2025-11-08');
+ 'Central Park Pavilion, Springfield', '2026-11-08');
 
 SELECT * FROM service_project;
 
