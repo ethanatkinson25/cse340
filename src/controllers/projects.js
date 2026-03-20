@@ -14,13 +14,22 @@ const showProjectsPage = async (req, res) => {
     res.render('projects', { title, projects });
 };  
 
-const showProjectDetailsPage = async (req, res) => {
-    const projectId = req.params.id;
-    const project = await getProjectDetails(projectId);
-    const categories = await getCategoriesByProjectId(projectId);
-    const title = project ? project.title : 'Project Details';
+const showProjectDetailsPage = async (req, res, next) => {
+    try {
+        const projectId = req.params.id;
+        const project = await getProjectDetails(projectId);
 
-    res.render('project', { title, project, categories });
+        if (!project) {
+            return res.status(404).render('errors/404', { title: 'Project Not Found' });
+        }
+
+        const categories = await getCategoriesByProjectId(projectId);
+        const title = project.title;
+
+        res.render('project', { title, project, categories });
+    } catch (error) {
+        next(error);
+    }
 };
 
 
