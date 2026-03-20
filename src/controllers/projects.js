@@ -16,11 +16,11 @@ const showProjectsPage = async (req, res) => {
 
 const showProjectDetailsPage = async (req, res) => {
     const projectId = req.params.id;
-    const projectDetails = await getProjectDetails(projectId);
+    const project = await getProjectDetails(projectId);
     const categories = await getCategoriesByProjectId(projectId);
-    const title = projectDetails ? projectDetails.title : 'Project Details';
+    const title = project ? project.title : 'Project Details';
 
-    res.render('project', { title, projectDetails, categories });
+    res.render('project', { title, project, categories });
 };
 
 
