@@ -1,3 +1,5 @@
+import db from './db.js';
+
 /**
  * Creates a new organization in the database.
  * @param {string} name - The name of the organization.
@@ -26,3 +28,5 @@ const createOrganization = async (name, description, contactEmail, logoFilename)
 
     return result.rows[0].organization_id;
 };
+
+export { createOrganization };
