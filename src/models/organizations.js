@@ -30,12 +30,6 @@ const getOrganizationDetails = async (organizationId) => {
       return result.rows.length > 0 ? result.rows[0] : null;
 };
 
-const processNewOrganizationForm = async (req, res) => {
-    const { name, description, contactEmail } = req.body;
-    const logoFilename = 'placeholder-logo.png'; // Use the placeholder logo for all new organizations
 
-    const organizationId = await createOrganization(name, description, contactEmail, logoFilename);
-    res.redirect(`/organization/${organizationId}`);
-};
 
-export {getAllOrganizations, getOrganizationDetails, processNewOrganizationForm}; 
+export {getAllOrganizations, getOrganizationDetails}; 
