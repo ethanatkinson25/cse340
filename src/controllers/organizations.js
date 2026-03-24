@@ -78,19 +78,26 @@ const showEditOrganizationForm = async (req, res) => {
   res.render('edit-organization', { title, organizationDetails });
 };
 
-const processEditOrganizationForm = async (req, res) => {
-    // Check for validation errors
+const processEditOrganizationForm = async (req, res, next) => {
     const results = validationResult(req);
     if (!results.isEmpty()) {
-        // Validation failed - loop through errors
         results.array().forEach((error) => {
             req.flash('error', error.msg);
         });
-
-        // Redirect back to the edit organization form
         return res.redirect('/edit-organization/' + req.params.id);
     }
-    next();
+
+    const organizationId = req.params.id;
+    const { name, description, contactEmail, logoFilename } = req.body;
+
+    try {
+        await updateOrganization(organizationId, name, description, contactEmail, logoFilename);
+        res.redirect(`/organization/${organizationId}`);
+    } catch (error) {
+        console.error('Failed to update organization:', error);
+        req.flash('error', 'Unable to save organization edits. Please try again.');
+        res.redirect('/edit-organization/' + organizationId);
+    }
 };
 
 // Export any controller functions
