@@ -11,7 +11,8 @@ import {
     showNewOrganizationForm,
     processNewOrganizationForm,
     showEditOrganizationForm,
-    organizationValidation
+    organizationValidation,
+    processEditOrganizationForm
 } from './organizations.js';
 
 const router = express.Router();
@@ -37,5 +38,11 @@ router.get('/organization/:id', showOrganizationDetailsPage);
 
 // Route to handle new organization form submission
 router.post('/new-organization', organizationValidation, processNewOrganizationForm);
+
+// Route to handle the edit organization form submission
+router.post('/edit-organization/:id', processEditOrganizationForm);
+
+// Route to handle the edit organization form submission
+router.post('/edit-organization/:id', organizationValidation, processEditOrganizationForm);
 
 export default router;
