@@ -90,6 +90,7 @@ const processEditOrganizationForm = async (req, res) => {
         // Redirect back to the edit organization form
         return res.redirect('/edit-organization/' + req.params.id);
     }
+    next();
 };
 
 // Export any controller functions
