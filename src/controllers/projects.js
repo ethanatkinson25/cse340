@@ -1,5 +1,5 @@
 // Import any needed model functions
-import { getAllProjects, getUpcomingProjects, getProjectDetails, createProject } from '../models/projects.js';
+import { getAllProjects, getUpcomingProjects, getProjectDetails, createProject, updateProject } from '../models/projects.js';
 import { getAllOrganizations } from '../models/organizations.js';
 import { getCategoriesByProjectId } from '../models/categories.js';
 import { body, validationResult } from 'express-validator';
@@ -68,6 +68,36 @@ const processNewProjectForm = async (req, res) => {
     }
 };
 
+const showEditProjectForm = async (req, res) => {
+  const projectId = req.params.id;
+  const projectDetails = await getProjectDetails(projectId);
+  const organizations = await getAllOrganizations();
+  const title = 'Edit Project';
+  res.render('edit-project', { title, projectDetails, organizations });
+};
+
+const processEditProjectForm = async (req, res, next) => {
+    const results = validationResult(req);
+    if (!results.isEmpty()) {
+        results.array().forEach((error) => {
+            req.flash('error', error.msg);
+        });
+        return res.redirect('/edit-project/' + req.params.id);
+    }
+
+    const projectId = req.params.id;
+    const { title, description, location, date, organizationId } = req.body;
+
+    try {
+        await updateProject(projectId, title, description, location, date, organizationId);
+        res.redirect(`/project/${projectId}`);
+    } catch (error) {
+        console.error('Failed to update project:', error);
+        req.flash('error', 'Unable to save project edits. Please try again.');
+        res.redirect('/edit-project/' + projectId);
+    }
+};
+
 const projectValidation = [
     body('title')
         .trim()
@@ -91,4 +121,4 @@ const projectValidation = [
 
 
 // Export any controller functions
-export { showProjectsPage, showProjectDetailsPage, showNewProjectForm, processNewProjectForm, projectValidation };
+export { showProjectsPage, showProjectDetailsPage, showNewProjectForm, processNewProjectForm, showEditProjectForm, processEditProjectForm, projectValidation };
