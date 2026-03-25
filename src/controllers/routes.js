@@ -45,4 +45,10 @@ router.post('/edit-organization/:id', organizationValidation, processEditOrganiz
 // Route to handle the edit organization form submission
 router.post('/edit-organization/:id', organizationValidation, processEditOrganizationForm);
 
+// Route for new project page
+router.get('/new-project', showNewProjectForm);
+
+// Route to handle new project form submission
+router.post('/new-project', processNewProjectForm);
+
 export default router;
