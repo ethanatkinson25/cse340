@@ -3,6 +3,7 @@ import { getAllProjects } from '../models/projects.js';
 import { getUpcomingProjects } from '../models/projects.js';
 import { getProjectDetails } from '../models/projects.js';
 import { getCategoriesByProjectId } from '../models/categories.js';
+import { body, validationResult } from 'express-validator';
 
 const NUMBER_OF_UPCOMING_PROJECTS = 5;
 

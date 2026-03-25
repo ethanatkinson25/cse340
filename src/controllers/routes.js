@@ -1,8 +1,13 @@
 import express from 'express';
 
 import { showHomePage } from './index.js';
-import { showProjectsPage } from './projects.js';
-import { showProjectDetailsPage } from './projects.js';
+import {
+    showProjectsPage,
+    showProjectDetailsPage,
+    showNewProjectForm,
+    processNewProjectForm,
+    projectValidation
+} from './projects.js';
 import { showCategoriesPage, showCategoryDetailsPage } from './categories.js';
 import { ErrorPage } from './errors.js';
 import {
@@ -49,6 +54,6 @@ router.post('/edit-organization/:id', organizationValidation, processEditOrganiz
 router.get('/new-project', showNewProjectForm);
 
 // Route to handle new project form submission
-router.post('/new-project', processNewProjectForm);
+router.post('/new-project', projectValidation, processNewProjectForm);
 
 export default router;
