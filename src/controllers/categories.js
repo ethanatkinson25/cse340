@@ -102,4 +102,14 @@ const processEditCategoryForm = async (req, res) => {
 };
 
 // Export any controller functions
-export { showCategoriesPage, showCategoryDetailsPage, showAssignCategoriesForm, processAssignCategoriesForm, showNewCategoryForm, processNewCategoryForm, showEditCategoryForm, processEditCategoryForm, categoryValidation };
+export { 
+      showCategoriesPage,
+      showCategoryDetailsPage,
+      showAssignCategoriesForm,
+      processAssignCategoriesForm,
+      showNewCategoryForm, 
+      processNewCategoryForm, 
+      showEditCategoryForm, 
+      processEditCategoryForm, 
+      categoryValidation 
+};

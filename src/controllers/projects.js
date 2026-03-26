@@ -121,4 +121,12 @@ const projectValidation = [
 
 
 // Export any controller functions
-export { showProjectsPage, showProjectDetailsPage, showNewProjectForm, processNewProjectForm, showEditProjectForm, processEditProjectForm, projectValidation };
+export { 
+    showProjectsPage, 
+    showProjectDetailsPage, 
+    showNewProjectForm, 
+    processNewProjectForm, 
+    showEditProjectForm, 
+    processEditProjectForm, 
+    projectValidation 
+};
