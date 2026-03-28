@@ -40,6 +40,18 @@ const showNewProjectForm = async (req, res) => {
 };
 
 const processNewProjectForm = async (req, res) => {
+    // Check for validation errors
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        // Loop through validation errors and flash them
+        errors.array().forEach((error) => {
+            req.flash('error', error.msg);
+        });
+
+        // Redirect back to the new project form
+        return res.redirect('/new-project');
+    }
+
     // Extract form data from req.body
     const { title, description, location, date, organizationId } = req.body;
 
@@ -55,17 +67,6 @@ const processNewProjectForm = async (req, res) => {
         res.redirect('/new-project');
     }
 
-    // Check for validation errors
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-        // Loop through validation errors and flash them
-        errors.array().forEach((error) => {
-            req.flash('error', error.msg);
-        });
-
-        // Redirect back to the new project form
-        return res.redirect('/new-project');
-    }
 };
 
 const showEditProjectForm = async (req, res) => {
