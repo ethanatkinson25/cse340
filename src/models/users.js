@@ -1,4 +1,5 @@
-import db from './db.js'
+import db from './db.js';
+import bcrypt from 'bcrypt';
 
 const createUser = async (name, email, passwordHash) => {
     const default_role = 'user';
@@ -43,4 +44,43 @@ const verifyPassword = async (password, passwordHash) => {
     return bcrypt.compare(password, passwordHash);
 };
 
-export { createUser, findUserByEmail, verifyPassword };
+/**
+ * Authenticates a user by verifying their email and password.
+ * @param {string} email - The email of the user.
+ * @param {string} password - The password of the user.
+ * @returns {Object|null} - The user object if authentication is successful, otherwise null.
+ */
+async function authenticateUser(email, password) {
+    try {
+        // Query the database for the user by email
+        const query = 'SELECT * FROM users WHERE email = $1';
+        const result = await db.query(query, [email]);
+
+        if (result.rows.length === 0) {
+            // No user found with the given email
+            return null;
+        }
+
+        const user = result.rows[0];
+
+        // Compare the provided password with the stored hashed password
+        const isPasswordValid = await bcrypt.compare(password, user.password);
+
+        if (!isPasswordValid) {
+            // Password does not match
+            return null;
+        }
+
+        // Return the user object if authentication is successful
+        return {
+            id: user.id,
+            name: user.name,
+            email: user.email
+        };
+    } catch (error) {
+        console.error('Error in authenticateUser:', error);
+        throw error;
+    }
+}
+
+export { createUser, findUserByEmail, verifyPassword, authenticateUser };
