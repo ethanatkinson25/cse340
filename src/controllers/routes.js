@@ -21,6 +21,7 @@ import {
     organizationValidation,
     processEditOrganizationForm
 } from './organizations.js';
+import { showUserRegistrationForm, processUserRegistrationForm } from './users.js';
 
 const router = express.Router();
 
@@ -79,5 +80,9 @@ router.post('/edit-project/:id', projectValidation, processEditProjectForm);
 // Routes to handle the assign categories to project form
 router.get('/assign-categories/:projectId', showAssignCategoriesForm);
 router.post('/assign-categories/:projectId', processAssignCategoriesForm);
+
+// User registration routes
+router.get('/register', showUserRegistrationForm);
+router.post('/register', processUserRegistrationForm);
 
 export default router;
