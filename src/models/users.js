@@ -22,4 +22,25 @@ const createUser = async (name, email, passwordHash) => {
     return result.rows[0].user_id;
 };
 
-export { createUser };
+const findUserByEmail = async (email) => {
+    const query = `
+        SELECT user_id, name, email, password_hash, role_id 
+        FROM users 
+        WHERE email = $1
+    `;
+    const query_params = [email];
+    
+    const result = await db.query(query, query_params);
+
+    if (result.rows.length === 0) {
+        return null; // User not found
+    }
+    
+    return result.rows[0];
+};
+
+const verifyPassword = async (password, passwordHash) => {
+    return bcrypt.compare(password, passwordHash);
+};
+
+export { createUser, findUserByEmail, verifyPassword };

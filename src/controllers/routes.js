@@ -10,7 +10,16 @@ import {
     processEditProjectForm,
     projectValidation
 } from './projects.js';
-import { showCategoriesPage, showCategoryDetailsPage, showAssignCategoriesForm, processAssignCategoriesForm, showNewCategoryForm, processNewCategoryForm, showEditCategoryForm, processEditCategoryForm, categoryValidation } from './categories.js';
+import { 
+    showCategoriesPage, 
+    showCategoryDetailsPage, 
+    showAssignCategoriesForm, 
+    processAssignCategoriesForm, 
+    showNewCategoryForm, 
+    processNewCategoryForm, 
+    showEditCategoryForm, 
+    processEditCategoryForm, 
+    categoryValidation } from './categories.js';
 import { ErrorPage } from './errors.js';
 import {
     showOrganizationsPage,
@@ -22,6 +31,7 @@ import {
     processEditOrganizationForm
 } from './organizations.js';
 import { showUserRegistrationForm, processUserRegistrationForm } from './users.js';
+import { showLoginForm, processLoginForm, processLogout } from './users.js';
 
 const router = express.Router();
 
@@ -84,5 +94,10 @@ router.post('/assign-categories/:projectId', processAssignCategoriesForm);
 // User registration routes
 router.get('/register', showUserRegistrationForm);
 router.post('/register', processUserRegistrationForm);
+
+// User login routes
+router.get('/login', showLoginForm);
+router.post('/login', processLoginForm);
+router.get('/logout', processLogout);
 
 export default router;
