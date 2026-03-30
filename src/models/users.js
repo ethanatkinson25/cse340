@@ -64,7 +64,7 @@ async function authenticateUser(email, password) {
         const user = result.rows[0];
 
         // Compare the provided password with the stored hashed password
-        const isPasswordValid = await bcrypt.compare(password, user.password);
+        const isPasswordValid = await bcrypt.compare(password, user.password_hash);
 
         if (!isPasswordValid) {
             // Password does not match
@@ -73,7 +73,7 @@ async function authenticateUser(email, password) {
 
         // Return the user object if authentication is successful
         return {
-            id: user.id,
+            id: user.user_id,
             name: user.name,
             email: user.email
         };
