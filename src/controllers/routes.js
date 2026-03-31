@@ -32,6 +32,7 @@ import {
 } from './organizations.js';
 import { showUserRegistrationForm, processUserRegistrationForm } from './users.js';
 import { showLoginForm, processLoginForm, processLogout } from './users.js';
+import { showDashboard, requireLogin } from './users.js';
 
 const router = express.Router();
 
@@ -99,5 +100,8 @@ router.post('/register', processUserRegistrationForm);
 router.get('/login', showLoginForm);
 router.post('/login', processLoginForm);
 router.get('/logout', processLogout);
+
+// Protected dashboard route
+router.get('/dashboard', requireLogin, showDashboard);
 
 export default router;
