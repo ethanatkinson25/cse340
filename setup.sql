@@ -222,6 +222,10 @@ CREATE TABLE users (
 INSERT INTO users (name, email, password_hash, role_id) 
 VALUES ('testuser', 'test@example.com', 'placeholder_hash', 1);
 
+-- Insert an admin user for testing
+INSERT INTO users (name, email, password_hash, role_id) 
+VALUES ('admin', 'admin@example.com', '$2b$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 2); -- password: password
+
 -- Join users and roles to see complete information
 SELECT u.user_id, u.name, u.email, r.role_name, r.role_description
 FROM users u

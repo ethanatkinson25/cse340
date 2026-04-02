@@ -53,7 +53,12 @@ const verifyPassword = async (password, passwordHash) => {
 async function authenticateUser(email, password) {
     try {
         // Query the database for the user by email
-        const query = 'SELECT * FROM users WHERE email = $1';
+        const query = `
+            SELECT u.user_id, u.name, u.email, r.role_name
+            FROM users u
+            JOIN roles r ON u.role_id = r.role_id
+            WHERE u.email = $1
+        `;
         const result = await db.query(query, [email]);
 
         if (result.rows.length === 0) {
@@ -64,7 +69,9 @@ async function authenticateUser(email, password) {
         const user = result.rows[0];
 
         // Compare the provided password with the stored hashed password
-        const isPasswordValid = await bcrypt.compare(password, user.password_hash);
+        const passwordQuery = 'SELECT password_hash FROM users WHERE user_id = $1';
+        const passwordResult = await db.query(passwordQuery, [user.user_id]);
+        const isPasswordValid = await bcrypt.compare(password, passwordResult.rows[0].password_hash);
 
         if (!isPasswordValid) {
             // Password does not match
@@ -75,7 +82,8 @@ async function authenticateUser(email, password) {
         return {
             id: user.user_id,
             name: user.name,
-            email: user.email
+            email: user.email,
+            role: user.role_name
         };
     } catch (error) {
         console.error('Error in authenticateUser:', error);
@@ -83,4 +91,15 @@ async function authenticateUser(email, password) {
     }
 }
 
-export { createUser, findUserByEmail, verifyPassword, authenticateUser };
+const getAllUsers = async () => {
+    const query = `
+        SELECT u.user_id, u.name, u.email, r.role_name
+        FROM users u
+        JOIN roles r ON u.role_id = r.role_id
+        ORDER BY u.name
+    `;
+    const result = await db.query(query);
+    return result.rows;
+};
+
+export { createUser, findUserByEmail, verifyPassword, authenticateUser, getAllUsers };

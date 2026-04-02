@@ -1,5 +1,5 @@
 import bcrypt from 'bcrypt';
-import { createUser, authenticateUser } from '../models/users.js';
+import { createUser, authenticateUser, getAllUsers } from '../models/users.js';
 
 const showUserRegistrationForm = (req, res) => {
     res.render('register', { title: 'Register' });
@@ -73,14 +73,37 @@ const requireLogin = (req, res, next) => {
     next();
 };
 
+const requireAdmin = (req, res, next) => {
+    if (!req.session.user || req.session.user.role !== 'admin') {
+        req.flash('error', 'You must be an admin to access that page.');
+        return res.redirect('/dashboard');
+    }
+    next();
+};
+
 
 const showDashboard = (req, res) => {
     const user = req.session.user;
     res.render('dashboard', { 
         title: 'Dashboard',
         name: user.name,
-        email: user.email
+        email: user.email,
+        role: user.role
     });
 };
 
-export { showUserRegistrationForm, processUserRegistrationForm, showLoginForm, processLoginForm, processLogout, requireLogin, showDashboard };
+const showAllUsers = async (req, res) => {
+    try {
+        const users = await getAllUsers();
+        res.render('users', { 
+            title: 'Users',
+            users: users
+        });
+    } catch (error) {
+        console.error('Error fetching users:', error);
+        req.flash('error', 'An error occurred while fetching users.');
+        res.redirect('/');
+    }
+};
+
+export { showUserRegistrationForm, processUserRegistrationForm, showLoginForm, processLoginForm, processLogout, requireLogin, requireAdmin, showDashboard, showAllUsers };
