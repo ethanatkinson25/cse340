@@ -105,4 +105,84 @@ const updateProject = async (projectId, title, description, location, date, orga
   }
 };
 
-export { getAllProjects, getProjectsByOrganizationId, getUpcomingProjects, getProjectDetails, createProject, updateProject };
+const addVolunteer = async (userId, projectId) => {
+  const query = `
+    INSERT INTO project_volunteer (user_id, project_id)
+    VALUES ($1, $2)
+    RETURNING volunteer_id
+  `;
+  
+  const query_params = [userId, projectId];
+  const result = await db.query(query, query_params);
+
+  if (result.rows.length === 0) {
+    throw new Error('Failed to add volunteer');
+  }
+
+  if (process.env.ENABLE_SQL_LOGGING === 'true') {
+    console.log('Added volunteer mapping with ID:', result.rows[0].volunteer_id);
+  }
+
+  return result.rows[0].volunteer_id;
+};
+
+const removeVolunteer = async (userId, projectId) => {
+  const query = `
+    DELETE FROM project_volunteer
+    WHERE user_id = $1 AND project_id = $2
+    RETURNING volunteer_id
+  `;
+  
+  const query_params = [userId, projectId];
+  const result = await db.query(query, query_params);
+
+  if (process.env.ENABLE_SQL_LOGGING === 'true') {
+    console.log('Removed volunteer for user', userId, 'from project', projectId);
+  }
+
+  return result.rows.length > 0;
+};
+
+const isUserVolunteerForProject = async (userId, projectId) => {
+  const query = `
+    SELECT volunteer_id FROM project_volunteer
+    WHERE user_id = $1 AND project_id = $2
+  `;
+  
+  const query_params = [userId, projectId];
+  const result = await db.query(query, query_params);
+
+  return result.rows.length > 0;
+};
+
+const getUserVolunteerProjects = async (userId) => {
+  const query = `
+    SELECT sp.project_id, sp.organization_id, sp.title, sp.description, sp.location, sp.date,
+           o.name AS organization_name, pv.volunteer_date
+      FROM public.service_project sp
+      JOIN public.organization o ON sp.organization_id = o.organization_id
+      JOIN public.project_volunteer pv ON sp.project_id = pv.project_id
+     WHERE pv.user_id = $1
+     ORDER BY sp.date
+  `;
+  
+  const query_params = [userId];
+  const result = await db.query(query, query_params);
+
+  return result.rows;
+};
+
+const getProjectVolunteerCount = async (projectId) => {
+  const query = `
+    SELECT COUNT(*) as volunteer_count
+    FROM project_volunteer
+    WHERE project_id = $1
+  `;
+  
+  const query_params = [projectId];
+  const result = await db.query(query, query_params);
+
+  return parseInt(result.rows[0].volunteer_count, 10);
+};
+
+export { getAllProjects, getProjectsByOrganizationId, getUpcomingProjects, getProjectDetails, createProject, updateProject, addVolunteer, removeVolunteer, isUserVolunteerForProject, getUserVolunteerProjects, getProjectVolunteerCount };

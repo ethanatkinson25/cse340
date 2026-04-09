@@ -55,8 +55,10 @@ app.use((req, res, next) => {
 
 app.use((req, res, next) => {
     res.locals.isLoggedIn = false;
+    res.locals.isAdmin = false;
     if (req.session && req.session.user) {
         res.locals.isLoggedIn = true;
+        res.locals.isAdmin = req.session.user.role === 'admin';
     }
 
     res.locals.NODE_ENV = NODE_ENV;

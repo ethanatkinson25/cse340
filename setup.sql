@@ -218,13 +218,13 @@ CREATE TABLE users (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Insert a test user
-INSERT INTO users (name, email, password_hash, role_id) 
-VALUES ('testuser', 'test@example.com', 'placeholder_hash', 1);
-
 -- Insert an admin user for testing
 INSERT INTO users (name, email, password_hash, role_id) 
 VALUES ('admin', 'admin@example.com', '$2b$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 2); -- password: password
+
+-- Insert a test user
+INSERT INTO users (name, email, password_hash, role_id) 
+VALUES ('testuser', 'test@example.com', 'placeholder_hash', 1);
 
 -- Join users and roles to see complete information
 SELECT u.user_id, u.name, u.email, r.role_name, r.role_description
@@ -233,3 +233,28 @@ JOIN roles r ON u.role_id = r.role_id;
 
 -- Delete the test user
 -- DELETE FROM users WHERE email = 'test@example.com';
+
+-- ============================================
+-- PROJECT VOLUNTEER JUNCTION TABLE
+-- A user can volunteer for multiple projects
+-- A project can have multiple volunteers
+-- ============================================
+CREATE TABLE project_volunteer (
+    volunteer_id SERIAL PRIMARY KEY,
+    user_id INT NOT NULL,
+    project_id INT NOT NULL,
+    volunteer_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE (user_id, project_id),
+
+    CONSTRAINT fk_volunteer_user
+        FOREIGN KEY (user_id)
+        REFERENCES users(user_id)
+        ON DELETE CASCADE,
+
+    CONSTRAINT fk_volunteer_project
+        FOREIGN KEY (project_id)
+        REFERENCES service_project(project_id)
+        ON DELETE CASCADE
+);
+
+SELECT * FROM project_volunteer;

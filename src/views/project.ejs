@@ -26,6 +26,22 @@
             <p>No categories assigned.</p>
         <% } %>
 
-        <p><a href="/edit-project/<%= project.project_id %>">Edit Project</a> | <a href="/assign-categories/<%= project.project_id %>">Assign Categories</a></p>
+        <h3>Volunteer</h3>
+        <% if (typeof locals.user !== 'undefined' && locals.user) { %>
+            <% if (isVolunteer) { %>
+                <p><strong>✓ You are volunteering for this project</strong></p>
+                <form method="POST" action="/remove-volunteer/<%= project.project_id %>" style="display: inline;">
+                    <button type="submit" class="btn-remove">Remove Volunteer Status</button>
+                </form>
+            <% } else { %>
+                <form method="POST" action="/volunteer/<%= project.project_id %>" style="display: inline;">
+                    <button type="submit" class="btn-volunteer">Volunteer for This Project</button>
+                </form>
+            <% } %>
+        <% } else { %>
+            <p><a href="/login">Log in</a> to volunteer for this project.</p>
+        <% } %>
+
+        <p><% if (isAdmin) { %><a href="/edit-project/<%= project.project_id %>">Edit Project</a> | <a href="/assign-categories/<%= project.project_id %>">Assign Categories</a><% } %></p>
     </main>
     <%- include('partials/footer') %>
